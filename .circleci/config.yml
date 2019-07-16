@@ -21,8 +21,8 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            virtualenv appvenv --python=python3
-            . appvenv/bin/activate
+            virtualenv venv --python=python3
+            . venv/bin/activate
             sudo pip install -r requirements.txt
       # Step 3: run linter and tests
       - run:
