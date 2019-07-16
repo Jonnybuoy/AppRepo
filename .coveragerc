@@ -5,4 +5,4 @@ omit =
       config.py
       fabfile.py
       listproject/wsgi.py
-      appvenv*
+      venv*
