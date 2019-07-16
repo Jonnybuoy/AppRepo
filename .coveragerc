@@ -1,0 +1,8 @@
+[report]
+show_missing =True
+omit =
+      manage.py
+      config.py
+      fabfile.py
+      listproject/wsgi.py
+      appvenv*

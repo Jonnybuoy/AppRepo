@@ -1,0 +1,10 @@
+
+{% include 'partials/header.html' %}
+<h2>New List</h2>
+<form method="POST" class="post">{% csrf_token %}
+{{ form.as_p }}
+<input type="submit" value="Submit" />
+</form>
+<br>
+
+{% include 'partials/footer.html' %}

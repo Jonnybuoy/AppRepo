@@ -1,0 +1,33 @@
+# Python CircleCI 2.0 configuration file
+
+#should always start with a version number-issues warnings about breaking changes
+version: 1
+
+# jobs refer to a single execution of the build
+jobs:
+  # build is the name of the job....they can be multiple and unique
+  build:
+    # builds occur in a docker container
+    docker:
+      - image: circleci/python:3.7
+
+    working_directory: ~/listproject
+
+    # series/ list of steps done for the build
+    steps:
+      # Step 1: obtain repo from GitHub
+      - checkout
+      # Step 2: create virtual env and install dependencies
+      - run:
+          name: install dependencies
+          command: |
+            python3 -m venv appvenv
+            . appvenv/bin/activate
+            pip install -r requirements.txt
+      # Step 3: run linter and tests
+      - run:
+          name: run tests
+          command: |
+            . appvenv/bin/activate
+            flake8 --exclude=appvenv* --statistics
+            python3 manage.py test

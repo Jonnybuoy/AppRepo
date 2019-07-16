@@ -1,0 +1,35 @@
+{% include 'partials/header.html' %}
+<style>
+.button {
+  background-color: #4caf9b; /* light-Green */
+  border: none;
+  color: white;
+  padding: none;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  font-size: 20px;
+}
+</style>
+  <ul>
+
+     <table>
+       <tr>
+         <th>Category</th>
+         <th>Description</th>
+         <th>Total price</th>
+       </tr>
+       {% for shoplists in shoplist %}
+       <tr>
+        <td><a href="list_details/{{shoplists.pk}}">{{shoplists.title}}</a></td>
+        <td>{{shoplists.description}}</td>
+        <td>{{shoplists.price}}</td>
+        <td><a href="list_delete/{{shoplists.pk}}"><button class="button">Delete</button></a></td>
+
+      </tr>
+      {% endfor %}
+   </ul>
+
+{% include 'partials/footer.html' %}
