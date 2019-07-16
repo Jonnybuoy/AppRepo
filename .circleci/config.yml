@@ -29,8 +29,7 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            cd listproject
             python3 manage.py test
             tox
-            coverage run --source='.' manage.py test
+            coverage run --source='/shoppinglist/' manage.py test
             coverage report
