@@ -31,3 +31,5 @@ jobs:
             . venv/bin/activate
             python3 manage.py test
             tox
+            coverage run --source='.' manage.py test
+            coverage report
