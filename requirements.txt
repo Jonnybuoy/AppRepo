@@ -12,6 +12,7 @@ django-celery-results==1.1.2
 django-webtest==1.9.6
 Faker==0.9.1
 filelock==3.0.12
+flake8==3.7.8
 gunicorn==19.9.0
 importlib-metadata==0.17
 kombu==4.6.1
@@ -28,6 +29,8 @@ pytz==2019.1
 six==1.12.0
 soupsieve==1.9.2
 sqlparse==0.3.0
+sentry-sdk==0.10.0
+supervisor==4.0.3
 text-unidecode==1.2
 toml==0.10.0
 tox==3.13.2
