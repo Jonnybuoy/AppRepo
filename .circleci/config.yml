@@ -13,7 +13,7 @@ jobs:
       - image: circleci/postgres:latest
     environment:
         POSTGRES_USER: postgres
-        POSTGRES_DB: shopdatabase
+        POSTGRES_DB: circle_test
 
     working_directory: ~/listproject
 
