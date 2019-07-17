@@ -21,7 +21,7 @@ services:
       environment:
         - DOCKER=True
         - POSTGRES_DB=shopdatabase
-        - DB_USER=circleci
+        - DB_USER=postgres
         - DB_PASSWORD='password'
 volumes:
   postgres_data:
