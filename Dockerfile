@@ -19,7 +19,7 @@ RUN pip install -r requirements.txt
 FROM postgres:latest
 
 ENV POSTGRES_USER=root \
-    POSTGRES_DB=circle_test
+    POSTGRES_DB=shopdatabase
 
 # This is performance optimization tweak to make DB faster
 RUN if [ -e /usr/local/share/postgresql/postgresql.conf.sample ]; then \

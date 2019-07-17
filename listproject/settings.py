@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'listproject.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'circle_test',
+        'NAME': 'shopdatabase',
         'USER': 'postgres',
         'PASSWORD': 'password',
         'HOST': 'localhost',
