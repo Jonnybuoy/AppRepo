@@ -95,7 +95,7 @@ DATABASES = {
         'NAME': 'shopdatabase',
         'USER': 'kaberere',
         'PASSWORD': 'password',
-        'HOST': 'localhost',
+        'HOST': '',
         'PORT': 5432,
     }
 }
