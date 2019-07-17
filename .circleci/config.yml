@@ -10,6 +10,7 @@ jobs:
     # builds occur in a docker container
     docker:
       - image: circleci/python:3.7
+      - image: circleci/postgres:latest
 
     working_directory: ~/listproject
 
