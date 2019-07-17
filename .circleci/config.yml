@@ -11,6 +11,9 @@ jobs:
     docker:
       - image: circleci/python:3.7
       - image: circleci/postgres:latest
+      environment:
+        POSTGRES_USER: circleci
+        POSTGRES_DB: shopdatabase
 
     working_directory: ~/listproject
 
