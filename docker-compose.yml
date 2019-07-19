@@ -10,6 +10,16 @@ services:
       - .:/my_listproject
     ports:
       - "8000"
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=ul5@2n@hw=cq_(+&_axxixuig05qj08u-jh1&-q*)bckws&fbd
+      - SQL_ENGINE=django.db.backends.postgresql
+      - SQL_DATABASE=shopdatabase
+      - SQL_USER=kaberere
+      - SQL_PASSWORD=password
+      - SQL_HOST=db
+      - SQL_PORT=5432
+      - DATABASE=postgres
     depends_on:
       - db
 
