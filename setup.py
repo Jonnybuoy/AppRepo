@@ -24,7 +24,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
             info = "Git tag: {0} does not match the version of this app: {1}".format(tag, VERSION)
             sys.exit(info)"""
 setup(
-    name='shoplistdjango',
+    name='djangoshoplistapp',
     version=VERSION,
     packages=find_packages(),
     include_package_data=True,
