@@ -2,6 +2,7 @@
 from setuptools import find_packages, setup
 from os import path
 from io import open
+from setuptools.command.install import install
 
 here = path.abspath(path.dirname(__file__))
 
