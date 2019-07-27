@@ -48,8 +48,5 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',],
     scripts=['manage.py'],
-"""    cmdclass={
-        'verify': VerifyVersionCommand,
-    }"""
 
 )
