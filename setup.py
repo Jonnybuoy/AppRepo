@@ -4,7 +4,6 @@ import sys
 from setuptools import find_packages, setup
 from os import path
 from io import open
-from setuptools.command.install import install
 
 here = path.abspath(path.dirname(__file__))
 
@@ -14,7 +13,7 @@ VERSION = "0.1"
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
-class VerifyVersionCommand(install):
+"""class VerifyVersionCommand(install):
     """Custom command to verify that the git tag matches our version"""
     description = 'verify that the git tag matches our version'
 
@@ -23,7 +22,7 @@ class VerifyVersionCommand(install):
 
         if tag != VERSION:
             info = "Git tag: {0} does not match the version of this app: {1}".format(tag, VERSION)
-            sys.exit(info)
+            sys.exit(info)"""
 setup(
     name='shoplistapp',
     version=VERSION,
@@ -49,8 +48,8 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',],
     scripts=['manage.py'],
-    cmdclass={
+"""    cmdclass={
         'verify': VerifyVersionCommand,
-    }
+    }"""
 
 )
