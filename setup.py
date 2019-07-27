@@ -5,13 +5,25 @@ from io import open
 
 here = path.abspath(path.dirname(__file__))
 
+
+VERSION = "0.1"
 # Get the long description from the README file
 with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
+class VerifyVersionCommand(install):
+    """Custom command to verify that the git tag matches our version"""
+    description = 'verify that the git tag matches our version'
+
+    def run(self):
+        tag = os.getenv('CIRCLE_TAG')
+
+        if tag != VERSION:
+            info = "Git tag: {0} does not match the version of this app: {1}".format(tag, VERSION)
+            sys.exit(info)
 setup(
     name='shoplistapp',
-    version='0.1',
+    version=VERSION,
     packages=find_packages(),
     include_package_data=True,
     license='MIT License',  # example license
@@ -33,5 +45,8 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Internet :: WWW/HTTP :: Dynamic Content',],
+    cmdclass={
+        'verify': VerifyVersionCommand,
+    }
     scripts=['manage.py'],
 )

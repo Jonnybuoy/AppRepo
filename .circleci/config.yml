@@ -46,6 +46,12 @@ jobs:
             tox
             coverage run --source='.' manage.py test
             coverage report
+
+      - run:
+          name: verify git tag vs version
+          command: |
+             . venv/bin/activate
+             python setup.py verify
       - run:
           name: init .pypirc
           command: |
