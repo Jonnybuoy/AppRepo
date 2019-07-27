@@ -33,7 +33,7 @@ setup(
     description='A simple Django app to keep a record of shopping list items.',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://www.example.com/',
+    url='https://www.app.com/',
     author='Johnson Kaberere',
     author_email='kaguithiajohnson@gmail.com',
     classifiers=[
