@@ -14,7 +14,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 """class VerifyVersionCommand(install):
-    """Custom command to verify that the git tag matches our version"""
+    Custom command to verify that the git tag matches our version
     description = 'verify that the git tag matches our version'
 
     def run(self):
