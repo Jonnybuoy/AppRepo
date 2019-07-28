@@ -1,0 +1,47 @@
+---
+- hosts: all
+  vars_files:
+    - vars.yml
+  gather_facts: false
+  become: yes
+
+  tasks:
+    - name: Install system packages
+      apt: pkg={{ item }} update-cache=yes
+      with_items: "{{ system_packages }}"
+      
+    - name: Install and configure db
+      apt: name={{item}} state=latest
+      become: yes
+      with_items:
+         - postgresql
+         - postgresql-contrib
+         - python-psycopg2
+
+    - name: Create directory for app
+      file: path={{ install_root }}/{{ project_name }} state=directory
+
+
+    - name: Start and enable postgres
+      service: name=postgresql enabled=yes state=started
+      become: yes
+
+    - name: Create database
+      postgresql_db: name=circle_test
+      become_user: postgres
+      become: yes
+
+    - name: Configure a new postgresql user
+      postgresql_user: db=circle_test
+                                name=kaberere
+                                password=password
+                                priv=ALL
+                                role_attr_flags=NOSUPERUSER
+      become: yes
+      become_user: postgres
+
+
+    - name: remove default nginx site
+      file: path=/etc/nginx/sites-enabled/default state=absent
+
+- include: deploy.yml

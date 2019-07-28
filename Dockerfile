@@ -14,12 +14,16 @@ WORKDIR /my_listproject
 ADD . /my_listproject
 
 # Install any needed packages specified in requirements.txt
-RUN pip install -r requirements.txt
+COPY Pipfile /my_listproject/Pipfile
+RUN pip install --upgrade pip
+RUN pip install pipenv && pipenv install --system && pip install -r requirements.txt
 
 FROM postgres:latest
 
-ENV POSTGRES_USER=root \
-    POSTGRES_DB=shopdatabase
+ENV POSTGRES_USER=kaberere \
+    POSTGRES_DB=circle_test
+
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # This is performance optimization tweak to make DB faster
 RUN if [ -e /usr/local/share/postgresql/postgresql.conf.sample ]; then \
@@ -31,3 +35,6 @@ RUN if [ -e /usr/local/share/postgresql/postgresql.conf.sample ]; then \
     echo synchronous_commit=off >> $postgresfile &&\
     echo full_page_writes=off >> $postgresfile &&\
     echo bgwriter_lru_maxpages=0 >> $postgresfile
+
+
+EXPOSE 8000

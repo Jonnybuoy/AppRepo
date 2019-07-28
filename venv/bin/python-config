@@ -1,4 +1,4 @@
-#!/home/johnson/AppRepo/venv/bin/python
+#!/home/johnson/Desktop/Django/AppRepo/venv/bin/python
 
 import sys
 import getopt
