@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #!/home/johnson/Desktop/Django/AppRepo/venv/bin/python3
+=======
+#!/home/johnson/AppRepo/venv/bin/python3
+>>>>>>> 3bcba8ca754f5b048bfdf58cb58e955b402b8735
 
 # $Id: rst2latex.py 5905 2009-04-16 12:04:49Z milde $
 # Author: David Goodger <goodger@python.org>

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #!/home/johnson/Desktop/Django/AppRepo/venv/bin/python3
+=======
+#!/home/johnson/AppRepo/venv/bin/python3
+>>>>>>> 3bcba8ca754f5b048bfdf58cb58e955b402b8735
 
 # $Id: rst2odt.py 5839 2009-01-07 19:09:28Z dkuhlman $
 # Author: Dave Kuhlman <dkuhlman@rexx.com>

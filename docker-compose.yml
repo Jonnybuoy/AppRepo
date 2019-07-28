@@ -5,11 +5,16 @@ services:
   web:
     build: .
     container_name: my_listproject
+<<<<<<< HEAD
     command: gunicorn listproject.wsgi:application --bind 0.0.0.0:8080
     ports:
       - 8080:8080
     volumes:
       - .:/my_listproject
+=======
+    ports:
+      - "8000"
+>>>>>>> 3bcba8ca754f5b048bfdf58cb58e955b402b8735
     environment:
       - DEBUG=1
       - SECRET_KEY=ul5@2n@hw=cq_(+&_axxixuig05qj08u-jh1&-q*)bckws&fbd

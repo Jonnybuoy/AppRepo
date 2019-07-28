@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #!/home/johnson/Desktop/Django/AppRepo/venv/bin/python3
+=======
+#!/home/johnson/AppRepo/venv/bin/python3
+>>>>>>> 3bcba8ca754f5b048bfdf58cb58e955b402b8735
 
 # $Id: rst2html.py 4564 2006-05-21 20:44:42Z wiemann $
 # Author: David Goodger <goodger@python.org>

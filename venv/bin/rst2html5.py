@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 #!/home/johnson/Desktop/Django/AppRepo/venv/bin/python3
+=======
+#!/home/johnson/AppRepo/venv/bin/python3
+>>>>>>> 3bcba8ca754f5b048bfdf58cb58e955b402b8735
 # -*- coding: utf8 -*-
 # :Copyright: © 2015 Günter Milde.
 # :License: Released under the terms of the `2-Clause BSD license`_, in short:
