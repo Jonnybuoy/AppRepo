@@ -6,41 +6,31 @@
   become: yes
 
   tasks:
-    - name: Clone/pull project repo
-      git: repo={{ project_repo }} dest={{ install_root }}/{{ project_name }}
-      notify:
-      - restart gunicorn
+    - name: Install pip
+      apt:
+         name: python3-pip
+         update_cache: yes
+         state: present
 
-    - name: install python packages
-      pip: requirements={{ install_root }}/{{ project_name }}/requirements.txt extra_args=--upgrade
-      notify:
-      - restart gunicorn
 
     - name: copy nginx config
-      template: src=files/nginx.j2 dest=/etc/nginx/sites-enabled/{{ project_name }}.conf
+      template: src=files/nginx.j2 dest=/etc/nginx/sites-enabled/{{ project_name }}
+
+
+    - name: create symlink
+      file:
+        src: /etc/nginx/sites-available/{{ project_name }}
+        dest: /etc/nginx/sites-enabled/{{ project_name }}
+        state: link
+      become: yes
       notify:
-      - restart nginx
-
-    - name: django migrate
-      django_manage: command=migrate app_path={{ install_root }}/{{ project_name }} pythonpath={{ pythonpath }}
-
-    - name: django collectstatic
-      django_manage: command=collectstatic app_path={{ install_root }}/{{ project_name }} pythonpath={{ pythonpath }}
-
-    - name: copy gunicorn config
-      template: src=files/gunicorn.j2 dest=/etc/init/gunicorn.conf
-      notify:
-      - restart gunicorn
+         - restart nginx
 
     - name: make sure nginx server is running
       service: name=nginx state=started enabled=yes
 
-    - name: make sure gunicorn server is running
-      service: name=gunicorn state=started enabled=yes
+
 
   handlers:
     - name: restart nginx
       service: name=nginx state=restarted
-
-    - name: restart gunicorn
-      service: name=gunicorn state=restarted
