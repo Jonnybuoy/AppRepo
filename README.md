@@ -13,6 +13,4 @@ Include the application's URLconf in your project urls.py like this:
 path('', include('shoppinglist.urls')),
 Run python manage.py migrate to create the shoppinglist models.
 
-Start the development server and visit http://127.0.0.1:8000/add/ to add an item to your list.
-
-Visit http://127.0.0.1:8000 to view your list.
+Visit https://www.remindershoplist.duckdns.org/  to view your list.
