@@ -11,17 +11,17 @@
       with_items: "{{ system_packages }}"
 
 
-    - name: add public key for certbot repo
-      shell: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8C47BE8E75BCA694
-      become: yes
-
-    - name: add universe repository for bionic
-      apt_repository:
-        repo: ppa:certbot/certbot
-        state: present
-
-    - name: remove default nginx site
-      file: path=/etc/nginx/sites-enabled/default state=absent
+    # - name: add public key for certbot repo
+    #   shell: apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8C47BE8E75BCA694
+    #   become: yes
+    #
+    # - name: add universe repository for bionic
+    #   apt_repository:
+    #     repo: ppa:certbot/certbot
+    #     state: present
+    #
+    # - name: remove default nginx site
+    #   file: path=/etc/nginx/sites-enabled/default state=absent
 
 
 - include: deploy.yml

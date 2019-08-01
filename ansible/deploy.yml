@@ -6,38 +6,39 @@
   become: yes
 
   tasks:
-    - name: Install pip
-      apt:
-         name: python3-pip
-         update_cache: yes
-         state: latest
+   - name: Install pip
+     apt:
+        name: python3-pip
+        update_cache: yes
+        state: latest
 
-    - name: Upgrade pip
-      pip: name=pip state=latest
+   - name: Upgrade pip
+     pip: name=pip state=latest
 
-    - name: Create directory for app
-      file: path={{ install_root }}/{{ project_name }} state=directory
+   - name: Create directory for app
+     file: path={{ install_root }}/{{ project_name }} state=directory
 
-    - name: Recursively change ownership of a directory
-      file:
-        path: /home/johnson/app/AppRepo
-        state: directory
-        recurse: yes
-        owner: johnson
+   - name: Recursively change ownership of a directory
+     file:
+       path: /home/johnson/app/AppRepo
+       state: directory
+       recurse: yes
+       owner: johnson
 
-    - name: Pull project from github
-      git:
-         repo: 'https://github.com/Jonnybuoy/AppRepo.git'
-         dest: {{ install_root }}/{{ project_name }}
+   - name: Pull project from github
+     git:
+        repo: 'https://github.com/Jonnybuoy/AppRepo.git'
+        dest: app/AppRepo/
 
-    - name: Install project requirements
-      pip:
-        requirements: /app/AppRepo/requirements.txt
+
+   - name: Install project requirements
+     pip:
+       requirements: /home/johnson/app/AppRepo/requirements.txt
 
 
     - name: copy nginx config
       copy:
-        src: /app/AppRepo/files/nginx.j2
+        src: /home/johnson/app/AppRepo/ansible/files/nginx.j2
         dest: /etc/nginx/sites-available/AppRepo
         remote_src: yes
 
@@ -55,6 +56,13 @@
         state: started
         enabled: yes
 
+    - name: make sure postgresql server is running
+      service: name=postgresql state=started
+
+    - name: create database
+      become_user: postgres
+      postgresql_db: name=circle_test
+
     - name: Configure a new postgresql user
       become: true
       become_user: postgres
@@ -70,14 +78,14 @@
 
     - name: Make migrations
       shell:
-        python3 /app/AppRepo/manage.py migrate
+        python3 /home/johnson/app/AppRepo/manage.py migrate
 
 
     - name: start gunicorn
       become: True
-      command: gunicorn --daemon --workers 3 --bind unix:/app/AppRepo/AppRepo.sock listproject.wsgi
+      command: gunicorn --daemon --workers 3 --bind unix:/home/johnson/app/AppRepo/AppRepo.sock listproject.wsgi
       args:
-        chdir: /app/AppRepo
+        chdir: /home/johnson/app/AppRepo
 
 
 

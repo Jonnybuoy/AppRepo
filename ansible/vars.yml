@@ -1,10 +1,11 @@
 ---
 # a unix path-friendly name (IE, no spaces or special characters)
-project_name: AppRepo
+project_name: "AppRepo"
 
 # the base path to install to.
 install_root: /app
 
+project_repo: https://github.com/Jonnybuoy/AppRepo.git
 
 # any directories that need to be added to the PYTHONPATH.
 pythonpath: "{{ install_root }}/{{ project_name }}/listproject"
@@ -23,5 +24,6 @@ system_packages:
   - libpq-dev
   - postgresql
   - postgresql-server-dev-all
+  - python-psycopg2
   - python3-psycopg2
   - python-certbot-nginx
