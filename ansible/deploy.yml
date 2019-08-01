@@ -10,24 +10,94 @@
       apt:
          name: python3-pip
          update_cache: yes
-         state: present
+         state: latest
+
+    - name: Upgrade pip
+      pip: name=pip state=latest
+
+    - name: Create directory for app
+      file: path={{ install_root }}/{{ project_name }} state=directory
+
+    - name: Recursively change ownership of a directory
+      file:
+        path: /home/johnson/app/AppRepo
+        state: directory
+        recurse: yes
+        owner: johnson
+
+    - name: Pull project from github
+      git:
+         repo: 'https://github.com/Jonnybuoy/AppRepo.git'
+         dest: {{ install_root }}/{{ project_name }}
+
+    - name: Install project requirements
+      pip:
+        requirements: /app/AppRepo/requirements.txt
 
 
     - name: copy nginx config
-      template: src=files/nginx.j2 dest=/etc/nginx/sites-enabled/{{ project_name }}
+      copy:
+        src: /app/AppRepo/files/nginx.j2
+        dest: /etc/nginx/sites-available/AppRepo
+        remote_src: yes
 
 
-    - name: create symlink
+    - name: Create symbolic link
       file:
-        src: /etc/nginx/sites-available/{{ project_name }}
-        dest: /etc/nginx/sites-enabled/{{ project_name }}
+        src: /etc/nginx/sites-available/AppRepo
+        dest: /etc/nginx/sites-enabled/AppRepo
         state: link
-      become: yes
-      notify:
-         - restart nginx
+
 
     - name: make sure nginx server is running
-      service: name=nginx state=started enabled=yes
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+    - name: Configure a new postgresql user
+      become: true
+      become_user: postgres
+      postgresql_user: db=circle_test
+                                  name=postgres
+                                  password=password
+                                  encrypted=yes
+                                  priv=ALL
+                                  role_attr_flags=NOSUPERUSER
+      become: yes
+      become_user: postgres
+
+
+    - name: Make migrations
+      shell:
+        python3 /app/AppRepo/manage.py migrate
+
+
+    - name: start gunicorn
+      become: True
+      command: gunicorn --daemon --workers 3 --bind unix:/app/AppRepo/AppRepo.sock listproject.wsgi
+      args:
+        chdir: /app/AppRepo
+
+
+
+    - name: Enable UFW
+      ufw:
+        state: enabled
+
+    - name: Allow OpenSSH
+      ufw:
+        rule: allow
+        name: OpenSSH
+
+    - name: Allow Nginx full
+      ufw:
+        rule: allow
+        name: Nginx Full
+
+    - name: Obtain SSL certificate
+      shell: "certbot --nginx --noninteractive --agree-tos --email kaguithiajohnson@gmail.com -d remindershoplist.duckdns.org -d www.remindershoplist.duckdns.org"
+      become: yes
 
 
 

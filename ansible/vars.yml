@@ -2,33 +2,26 @@
 # a unix path-friendly name (IE, no spaces or special characters)
 project_name: AppRepo
 
-# the base path to install to. You should not need to change this.
-install_root: /shoplist_django
+# the base path to install to.
+install_root: /app
 
-
-wsgi_module: listproject.wsgi
 
 # any directories that need to be added to the PYTHONPATH.
-pythonpath: "{{ install_root }}/{{ project_name }}/shoppinglist/templates"
-
-# the git repository URL for the project
-project_repo:  https://github.com/Jonnybuoy/AppRepo.git
-
-
-# The value of your django project's STATIC_ROOT settings.
-static_root: "{{ install_root }}/{{ project_name }}/static"
+pythonpath: "{{ install_root }}/{{ project_name }}/listproject"
 
 # the dns name or names (space separated) for your server
-server_name: ec2-18-216-219-15.us-east-2.compute.amazonaws.com
+server_name: remindershoplist.duckdns.org www.remindershoplist.duckdns.org
 
-# database setup.
-db_name: circle_test
-db_user: kaberere
-db_password: password
+
 
 system_packages:
   - git
   - nginx
   - gunicorn
-  - python-pip
-  - python-dev
+  - python3-pip
+  - python3-dev
+  - libpq-dev
+  - postgresql
+  - postgresql-server-dev-all
+  - python3-psycopg2
+  - python-certbot-nginx

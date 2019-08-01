@@ -1,14 +1,15 @@
 server {
-    listen 8000 default_server;
-    server_name {{ server_name }};
+    listen [::]:80 default_server;
+    listen 80 default_server;
+    server_name remindershoplist.duckdns.org www.remindershoplist.duckdns.org;
 
     location = /favicon.ico { access_log off; log_not_found off; }
     location /static/ {
-        root /home/johnson/app;
+        root /home/johnson/app/AppRepo;
     }
 
     location / {
         include proxy_params;
-        proxy_pass http://unix:/home/johnson/app.sock;
+        proxy_pass http://unix:/home/johnson/app/AppRepo/AppRepo.sock;
     }
 }
