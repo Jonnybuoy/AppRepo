@@ -36,8 +36,8 @@
        requirements: /home/johnson/app/AppRepo/requirements.txt
 
 
-    - name: copy nginx config
-      copy:
+  - name: copy nginx config
+    copy:
         src: /home/johnson/app/AppRepo/ansible/files/nginx.j2
         dest: /etc/nginx/sites-available/AppRepo
         remote_src: yes
