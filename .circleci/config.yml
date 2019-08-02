@@ -17,6 +17,9 @@ jobs:
 
     working_directory: ~/listproject
 
+    environment:
+      - ANSIBLE_HOST_KEY_CHECKING: False
+
     # series/ list of steps done for the build
     steps:
       # Step 1: obtain repo from GitHub
