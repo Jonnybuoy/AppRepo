@@ -36,8 +36,8 @@
        requirements: /home/johnson/app/AppRepo/requirements.txt
 
 
-  - name: copy nginx config
-    copy:
+   - name: copy nginx config
+     copy:
         src: /home/johnson/app/AppRepo/ansible/files/nginx.j2
         dest: /etc/nginx/sites-available/AppRepo
         remote_src: yes
@@ -52,7 +52,56 @@
 
     - name: make sure nginx server is running
       service:
-        name: nginx
+        name: nginx    - name: make sure postgresql server is running
+      service: name=postgresql state=started
+
+    - name: create database
+      become_user: postgres
+      postgresql_db: name=circle_test
+
+    - name: Configure a new postgresql user
+      become: true
+      become_user: postgres
+      postgresql_user: db=circle_test
+                                  name=postgres
+                                  password=password
+                                  encrypted=yes
+                                  priv=ALL
+                                  role_attr_flags=NOSUPERUSER
+      become: yes
+      become_user: postgres
+
+
+    - name: Make migrations
+      shell:
+        python3 /home/johnson/app/AppRepo/manage.py migrate
+
+
+    - name: start gunicorn
+      become: True
+      command: gunicorn --daemon --workers 3 --bind unix:/home/johnson/app/AppRepo/AppRepo.sock listproject.wsgi
+      args:
+        chdir: /home/johnson/app/AppRepo
+
+
+
+    - name: Enable UFW
+      ufw:
+        state: enabled
+
+    - name: Allow OpenSSH
+      ufw:
+        rule: allow
+        name: OpenSSH
+
+    - name: Allow Nginx full
+      ufw:
+        rule: allow
+        name: Nginx Full
+
+    - name: Obtain SSL certificate
+      shell: "certbot --nginx --noninteractive --agree-tos --email kaguithiajohnson@gmail.com -d remindershoplist.duckdns.org -d www.remindershoplist.duckdns.org"
+      become: yes
         state: started
         enabled: yes
 
