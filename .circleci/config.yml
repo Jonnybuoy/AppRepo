@@ -1,7 +1,7 @@
 # Python CircleCI 2.0 configuration file
 
 #should always start with a version number-issues warnings about breaking changes
-version: 1
+version: 2
 
 # jobs refer to a single execution of the build
 jobs:
@@ -83,7 +83,7 @@ jobs:
               ansible-playbook -i ansible/hosts ansible/provision.yml
 
 workflows:
-  version: 1
+  version: 2
   build:
     jobs:
       - build:
