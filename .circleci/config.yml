@@ -74,7 +74,7 @@ jobs:
           name: upload to pypi
           command: |
              . venv/bin/activate
-             twine upload dist/*
+             twine upload --skip-existing  ./dist/*
 
       - run:
           name: Deploy to production
