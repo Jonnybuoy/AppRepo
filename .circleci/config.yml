@@ -86,7 +86,7 @@ workflows:
   version: 1
   build:
     jobs:
-      - build
+      - build:
            filters:
              branches:
                only: master
