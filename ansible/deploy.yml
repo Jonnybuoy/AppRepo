@@ -29,6 +29,7 @@
       git:
         repo: 'https://github.com/Jonnybuoy/AppRepo.git'
         dest: app/AppRepo/
+        update: no
 
 
     - name: Install project requirements
