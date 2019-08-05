@@ -6,5 +6,6 @@ omit =
       fabfile.py
       setup.py
       views.py
+      wsgi.py
       listproject/wsgi.py
       venv*
