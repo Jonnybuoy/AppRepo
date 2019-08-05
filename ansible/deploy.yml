@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: servers
   vars_files:
     - vars.yml
   gather_facts: false
@@ -16,11 +16,11 @@
       pip: name=pip state=latest
 
     - name: Create directory for app
-      file: path={{ install_root }}/{{ project_name }} state=directory
+      file: path=/app/AppRepo state=directory
 
     - name: Recursively change ownership of a directory
       file:
-        path: /home/johnson/app/AppRepo
+        path: /home/johnson/app/AppRepo/
         state: directory
         recurse: yes
         owner: johnson
@@ -28,18 +28,18 @@
     - name: Pull project from github
       git:
         repo: 'https://github.com/Jonnybuoy/AppRepo.git'
-        dest: app/AppRepo/
+        dest: /home/johnson/app/AppRepo/
         update: no
 
 
     - name: Install project requirements
       pip:
-        requirements: /home/johnson/app/AppRepo/requirements.txt --ignore-installed
+        requirements: /home/johnson/app/AppRepo/requirements.txt
 
 
     - name: copy nginx config
       copy:
-        src: /home/johnson/app/AppRepo/ansible/files/nginx.j2
+        src: /app/AppRepo/ansible/files/nginx.j2
         dest: /etc/nginx/sites-available/AppRepo
         remote_src: yes
 
@@ -105,7 +105,7 @@
         name: Nginx Full
 
     - name: Obtain SSL certificate
-      shell: "certbot --nginx --noninteractive --agree-tos --email kaguithiajohnson@gmail.com -d kaberereshoplist.duckdns.org -d www.kaberereshoplist.duckdns.org"
+      shell: "certbot --nginx --noninteractive --agree-tos --email kaguithiajohnson@gmail.com -d johnshoplist.duckdns.org -d www.johnshoplist.duckdns.org"
       become: yes
 
 
