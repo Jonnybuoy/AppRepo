@@ -75,8 +75,10 @@ jobs:
       - run:
           name: Fix ssh Could not resolve hostname
           command: |
-            ssh-keyscan kaberereshoplist.duckdns.org >> ~/.ssh/known_hosts # Dev server, too.
-
+            ssh-keyscan kaberereshoplist.duckdns.org >> ~/.ssh/known_hosts
+      - add_ssh_keys:
+            fingerprints:
+                - "d2:cf:f6:dd:38:49:bf:f5:1e:dc:10:8d:48:a3:3b:68"
       - run:
           name: upload to pypi
           command: |
