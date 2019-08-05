@@ -82,7 +82,7 @@ jobs:
           name: Deploy to production
           command: |
               . venv/bin/activate
-              ansible-playbook -i ansible/hosts.yml ansible/provision.yml --private-key ~/.ssh/id_rsa
+              ansible-playbook -i ansible/hosts.yml ansible/provision.yml
 
 workflows:
   version: 2
