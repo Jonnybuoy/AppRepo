@@ -76,7 +76,7 @@ jobs:
           name: Fix ssh Could not resolve hostname
           command: |
             ssh-keygen -R 35.222.159.136
-            ssh-keyscan 35.222.159.136 >> ~/.ssh/known_hosts
+
       - add_ssh_keys:
             fingerprints:
                 - "53:3d:7a:ef:5e:8d:04:a3:6e:b4:1b:8a:a0:e0:67:f6"
