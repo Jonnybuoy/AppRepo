@@ -3,7 +3,6 @@ show_missing =True
 omit =
       manage.py
       config.py
-      fabfile.py
       setup.py
       shoppinglist/views.py
       wsgi.py
