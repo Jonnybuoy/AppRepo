@@ -73,6 +73,15 @@ jobs:
              python setup.py sdist bdist_wheel
 
       - run:
+          name: Fix ssh Could not resolve hostname
+          command: |
+            ssh-keyscan 35.239.203.187 >> ~/.ssh/known_hosts # Dev server, too.
+
+      - add_ssh_keys: # add private SSH key from CircleCI account based on fingerprint.
+          fingerprints:
+            - "10:fd:e4:21:37:cd:c0:11:ed:ba:de:3b:47:87:e0:7a"
+
+      - run:
           name: upload to pypi
           command: |
              . venv/bin/activate
