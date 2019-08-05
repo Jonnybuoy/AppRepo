@@ -1,104 +1,76 @@
-# Python CircleCI 2.0 configuration file
-
-#should always start with a version number-issues warnings about breaking changes
 version: 2
-
-# jobs refer to a single execution of the build
 jobs:
-  # build is the name of the job....they can be multiple and unique
   build:
-    # builds occur in a docker container
     docker:
-      - image: circleci/python:3.7
-      - image: circleci/postgres:latest
+    - image: circleci/python:3.7
+    - image: circleci/postgres:latest
     environment:
-        POSTGRES_USER: postgres
-        POSTGRES_DB: circle_test
-        ANSIBLE_HOST_KEY_CHECKING: False
-
+    - POSTGRES_USER: postgres
+    - POSTGRES_DB: circle_test
+    - ANSIBLE_HOST_KEY_CHECKING: false
     working_directory: ~/listproject
-
-
-
-    # series/ list of steps done for the build
     steps:
-      # Step 1: obtain repo from GitHub
-      - checkout
-      - run:
-           name: install dockerize
-           command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-           environment:
-              DOCKERIZE_VERSION: v0.3.0
-      - run:
-           name: Wait for db
-           command: dockerize -wait tcp://localhost:5432 -timeout 1m
-
-      # Step 2: create virtual env and install dependencies
-      - run:
-          name: install dependencies
-          command: |
-            virtualenv venv --python=python3
-            . venv/bin/activate
-            pip3 install -r requirements.txt
-            pip3 install ansible
-            sudo apt update
-            sudo apt install rsync
-
-      - save_cache:
-           key: deps-{{ checksum "requirements.txt" }}
-           paths:
-             - "env"
-      # Step 3: run linter and tests
-      - run:
-          name: run tests
-          command: |
-            . venv/bin/activate
-            python3 manage.py test
-            coverage run --source='.' manage.py test
-            coverage report --fail-under=100
-
-
-      - run:
-          name: init .pypirc
-          command: |
-             echo -e "[pypi]" >> ~/.pypirc
-             echo -e "username = jonnybuoy" >> ~/.pypirc
-             echo -e "password = jonny12905." >> ~/.pypirc
-
-      - run:
-          name: create package
-          command: |
-             rm -rf ./build
-             rm -rf ./dist
-             python setup.py sdist bdist_wheel
-
-      - run:
-          name: Fix ssh Could not resolve hostname
-          command: |
-            ssh-keygen -R 35.222.159.136
-
-      - add_ssh_keys:
-            fingerprints:
-                - "53:3d:7a:ef:5e:8d:04:a3:6e:b4:1b:8a:a0:e0:67:f6"
-      - run:
-          name: upload to pypi
-          command: |
-             . venv/bin/activate
-             twine upload --skip-existing  ./dist/*
-
-      - run:
-          name: Deploy to production
-          command: |
-              . venv/bin/activate
-              ansible-playbook -i ansible/hosts ansible/provision.yml
-
+    - checkout
+    - run:
+        name: install dockerize
+        command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+        environment:
+          DOCKERIZE_VERSION: v0.3.0
+    - run:
+        name: Wait for db
+        command: dockerize -wait tcp://localhost:5432 -timeout 1m
+    - run:
+        name: install dependencies
+        command: |
+          virtualenv venv --python=python3
+          . venv/bin/activate
+          pip3 install -r requirements.txt
+          pip3 install ansible
+          sudo apt update
+          sudo apt install rsync
+    - save_cache:
+        key: deps-{{ checksum "requirements.txt" }}
+        paths:
+        - env
+    - run:
+        name: run tests
+        command: |
+          . venv/bin/activate
+          python3 manage.py test
+          tox
+          coverage run --source='.' manage.py test
+          coverage report
+    - run:
+        name: init .pypirc
+        command: |
+          echo -e "[pypi]" >> ~/.pypirc
+          echo -e "username = jonnybuoy" >> ~/.pypirc
+          echo -e "password = jonny12905." >> ~/.pypirc
+    - run:
+        name: create package
+        command: |
+          rm -rf ./build
+          rm -rf ./dist
+          python setup.py sdist bdist_wheel
+    - run:
+        name: upload to pypi
+        command: |
+          . venv/bin/activate
+          twine upload --skip-existing  ./dist/*
+    - run:
+        name: Deploy to production
+        command: |
+          . venv/bin/activate
+          ansible-playbook -i ansible/hosts ansible/provision.yml
 workflows:
   version: 2
   build:
     jobs:
-      - build:
-           filters:
-             branches:
-               only:
-                 - master
-                 - learningbranch
+    - build:
+        filters:
+          branches:
+            only:
+              - master
+              - learningbranch
