@@ -54,6 +54,8 @@ jobs:
           rm -rf ./build
           rm -rf ./dist
           python setup.py sdist bdist_wheel
+
+    - run: cat ~/repo/.circleci/ssh.config >> ~/.ssh/config
     - run:
         name: upload to pypi
         command: |
