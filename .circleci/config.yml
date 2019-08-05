@@ -98,6 +98,4 @@ workflows:
       - build:
            filters:
              branches:
-               only:
-                 - master
-                 - learningbranch
+               only: master
