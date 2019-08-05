@@ -1,5 +1,5 @@
 ---
-- hosts: web
+- hosts: all
   vars_files:
     - vars.yml
   gather_facts: false
@@ -14,6 +14,10 @@
 
     - name: Upgrade pip
       pip: name=pip state=latest
+
+    - name: Install virtualenv
+      pip: name=virtualenv executable=pip3
+
 
     - name: Create directory for app
       file: path={{ install_root }}/{{ project_name }} state=directory
@@ -34,7 +38,7 @@
 
     - name: Install project requirements
       pip:
-        requirements: /home/johnson/app/AppRepo/requirements.txt
+        requirements: /home/johnson/app/AppRepo/requirements.txt virtualenv=/home/johnson/app/AppRepo/venv
 
 
     - name: copy nginx config
