@@ -75,7 +75,7 @@ jobs:
       - run:
           name: Fix ssh Could not resolve hostname
           command: |
-            ssh-keyscan 35.239.203.187 >> ~/.ssh/known_hosts # Dev server, too.
+            ssh-keyscan kaberereshoplist.duckdns.org >> ~/.ssh/known_hosts # Dev server, too.
 
       - run:
           name: upload to pypi
