@@ -15,17 +15,8 @@
     - name: Upgrade pip
       pip: name=pip state=latest
 
-    - name: Install virtualenv
-      pip: name=virtualenv executable=pip3
-
-
     - name: Create directory for app
       file: path={{ install_root }}/{{ project_name }} state=directory
-
-
-    - name: create virtualenv
-      command: /usr/local/bin/virtualenv path={{ install_root }}/{{ project_name }}/venv
-
 
     - name: Recursively change ownership of a directory
       file:
@@ -43,9 +34,7 @@
 
     - name: Install project requirements
       pip:
-        requirements: /home/johnson/app/AppRepo/requirements.txt
-        virtualenv: {{ install_root }}/{{ project_name }}/venv
-        virtualenv_python: python3.6
+        requirements: /home/johnson/app/AppRepo/requirements.txt --ignore-installed
 
 
     - name: copy nginx config
@@ -95,10 +84,7 @@
 
     - name: start gunicorn
       become: True
-      shell: |
-           . /home/johnson/app/AppRepo/venv/bin/activate
-           
-           gunicorn --daemon --workers 3 --bind unix:/home/johnson/app/AppRepo/AppRepo.sock listproject.wsgi
+      command: gunicorn --daemon --workers 3 --bind unix:/home/johnson/app/AppRepo/AppRepo.sock listproject.wsgi
       args:
         chdir: /home/johnson/app/AppRepo
 
