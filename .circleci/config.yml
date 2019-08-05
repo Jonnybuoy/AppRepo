@@ -86,6 +86,7 @@ jobs:
       - run:
           name: Deploy to production
           command: |
+              if [ "${CIRCLE_BRANCH}" = "learningbranch" ]; then
               . venv/bin/activate
               ansible all -i ./ansible/hosts -m ping
               ansible-playbook -i ./ansible/hosts ./ansible/provision.yml
