@@ -75,7 +75,7 @@ jobs:
       - run:
           name: Fix ssh Could not resolve hostname
           command: |
-            ssh-keyscan kaberereshoplist.duckdns.org >> ~/.ssh/known_hosts
+            ssh-keyscan 35.222.159.136 >> ~/.ssh/known_hosts
       - add_ssh_keys:
             fingerprints:
                 - "53:3d:7a:ef:5e:8d:04:a3:6e:b4:1b:8a:a0:e0:67:f6"
@@ -89,8 +89,7 @@ jobs:
           name: Deploy to production
           command: |
               . venv/bin/activate
-              ansible all -i ./ansible/hosts -m ping -vv
-              ansible-playbook -i ./ansible/hosts ./ansible/provision.yml
+              ansible-playbook -i ansible/hosts ansible/provision.yml
 
 workflows:
   version: 2
