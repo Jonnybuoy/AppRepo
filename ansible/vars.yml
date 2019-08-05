@@ -24,6 +24,5 @@ system_packages:
   - libpq-dev
   - postgresql
   - postgresql-server-dev-all
-  - python-psycopg2
   - python3-psycopg2
   - python-certbot-nginx
