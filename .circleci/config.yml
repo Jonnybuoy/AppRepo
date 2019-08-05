@@ -87,8 +87,8 @@ jobs:
           name: Deploy to production
           command: |
               . venv/bin/activate
-              ansible all -i ansible/hosts.yml -m ping
-              ansible-playbook -i ansible/hosts.yml ansible/provision.yml
+              ansible all -i ./ansible/hosts.yml -m ping
+              ansible-playbook -i ./ansible/hosts.yml ./ansible/provision.yml
 
 workflows:
   version: 2
