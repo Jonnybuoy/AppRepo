@@ -38,7 +38,7 @@
 
     - name: Install project requirements
       pip:
-        requirements: /home/johnson/app/AppRepo/requirements.txt virtualenv=/home/johnson/app/AppRepo/venv
+        requirements: /home/johnson/app/AppRepo/requirements.txt virtualenv={{ install_root }}/{{ project_name }}/venv
 
 
     - name: copy nginx config
