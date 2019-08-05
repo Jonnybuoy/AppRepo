@@ -54,9 +54,8 @@ jobs:
           command: |
             . venv/bin/activate
             python3 manage.py test
-            tox
             coverage run --source='.' manage.py test
-            coverage report
+            coverage report --fail-under=100
 
 
       - run:
