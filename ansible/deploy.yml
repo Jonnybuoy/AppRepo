@@ -1,5 +1,5 @@
 ---
-- hosts: webserver
+- hosts: servers
   vars_files:
     - vars.yml
   gather_facts: false
@@ -105,7 +105,7 @@
         name: Nginx Full
 
     - name: Obtain SSL certificate
-      shell: "certbot --nginx --noninteractive --agree-tos --email kaguithiajohnson@gmail.com -d shoplist.duckdns.org -d www.shoplist.duckdns.org"
+      shell: "certbot --nginx --noninteractive --agree-tos --email kaguithiajohnson@gmail.com -d johnshoplist.duckdns.org -d www.johnshoplist.duckdns.org"
       become: yes
 
 
