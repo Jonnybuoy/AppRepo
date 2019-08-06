@@ -4,6 +4,7 @@ jobs:
     docker:
     - image: circleci/python:3.7
     - image: circleci/postgres:latest
+    - image: 12905/ubuntussh
     environment:
     - POSTGRES_USER: postgres
     - POSTGRES_DB: circle_test
@@ -55,7 +56,7 @@ jobs:
           rm -rf ./dist
           python setup.py sdist bdist_wheel
 
-          
+
     - run:
         name: upload to pypi
         command: |
