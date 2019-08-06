@@ -35,7 +35,7 @@ jobs:
             pip3 install ansible
             sudo apt update
             sudo apt install rsync
-     - run:
+      - run:
          name: run tests
          command: |
            . venv/bin/activate
