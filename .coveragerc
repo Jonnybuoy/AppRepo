@@ -5,5 +5,6 @@ omit =
       config.py
       fabfile.py
       setup.py
+      shoppinglist/views.py
       listproject/wsgi.py
       venv*

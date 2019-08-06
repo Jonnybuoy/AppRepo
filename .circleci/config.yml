@@ -1,6 +1,3 @@
-# Python CircleCI 2.0 configuration file
-
-#should always start with a version number-issues warnings about breaking changes
 version: 2
 
 # jobs refer to a single execution of the build
@@ -12,28 +9,23 @@ jobs:
       - image: circleci/python:3.7
       - image: circleci/postgres:latest
     environment:
-        POSTGRES_USER: postgres
-        POSTGRES_DB: circle_test
-        ANSIBLE_HOST_KEY_CHECKING: False
-
-    working_directory: ~/listproject
-
-
+    - POSTGRES_USER: postgres
+    - POSTGRES_DB: circle_test
+    - ANSIBLE_HOST_KEY_CHECKING: false
+    working_directory: ~/repo
 
     # series/ list of steps done for the build
     steps:
       # Step 1: obtain repo from GitHub
       - checkout
-      - run:
-           name: install dockerize
-           command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-           environment:
-              DOCKERIZE_VERSION: v0.3.0
-      - run:
-           name: Wait for db
-           command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
-      # Step 2: create virtual env and install dependencies
+      - run:
+          name: install dockerize
+          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+            && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+            && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          environment:
+            DOCKERIZE_VERSION: v0.3.0
       - run:
           name: install dependencies
           command: |
@@ -43,53 +35,80 @@ jobs:
             pip3 install ansible
             sudo apt update
             sudo apt install rsync
-
-      - save_cache:
-           key: deps-{{ checksum "requirements.txt" }}
-           paths:
-             - "env"
-      # Step 3: run linter and tests
       - run:
-          name: run tests
-          command: |
-            . venv/bin/activate
-            python3 manage.py test
-            tox
-            coverage run --source='.' manage.py test
-            coverage report
+         name: run tests
+         command: |
+           . venv/bin/activate
+           python3 manage.py test
+           tox
+           coverage run --source='.' manage.py test
+           coverage report
+
+
+
+  deploy:
+    docker:
+      - image: circleci/python:3.7
+    environment:
+      - ANSIBLE_HOST_KEY_CHECKING: False
+    steps:
+      - checkout
+      # - run:
+      #     name: verify git tag vs. version
+      #     command: |
+      #       python3 -m venv last
+      #       . last/bin/activate
+      #       python setup.py verify
 
 
       - run:
           name: init .pypirc
           command: |
-             echo -e "[pypi]" >> ~/.pypirc
-             echo -e "username = jonnybuoy" >> ~/.pypirc
-             echo -e "password = jonny12905." >> ~/.pypirc
+            echo -e "[pypi]" >> ~/.pypirc
+            echo -e "username = jonnybuoy" >> ~/.pypirc
+            echo -e "password = jonny12905." >> ~/.pypirc
 
       - run:
-          name: create package
+          name: create packages
           command: |
-             rm -rf ./build
-             rm -rf ./dist
-             python setup.py sdist bdist_wheel
+            rm -rf ./build
+            rm -rf ./dist
+            python setup.py sdist bdist_wheel
+
 
       - run:
           name: upload to pypi
           command: |
-             . venv/bin/activate
-             twine upload --skip-existing  ./dist/*
+            python3 -m venv last
+            . venv/bin/activate
+            pip install twine
+            twine upload --skip-existing ./dist/*
 
+      - add_ssh_keys:
+          fingerprints:
+              - "53:3d:7a:ef:5e:8d:04:a3:6e:b4:1b:8a:a0:e0:67:f6"
+      # # - run:
+      #     # name: Make remote server a known host
+      #     # command: ssh-keyscan josephdevs.duckdns.org >> ~/.ssh/known_hosts
       - run:
-          name: Deploy to production
+          name: deploying to ansible
           command: |
-              . venv/bin/activate
-              ansible-playbook -i ansible/hosts ansible/provision.yml
+            python3 -m venv last
+            . last/bin/activate
+            pip install ansible
+            cd ansible
+            ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i hosts provision.yml
+
+
 
 workflows:
   version: 2
-  build:
+  build_deploy:
     jobs:
-      - build:
-           filters:
-             branches:
-               only: master
+    - build
+    - deploy:
+        requires:
+          - build
+        filters:
+          branches:
+            only: master
