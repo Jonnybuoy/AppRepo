@@ -101,8 +101,7 @@ jobs:
 
 workflows:
   version: 2
-  build_deploy:  python3 -m venv last
-            . last/bin/activate
+  build_deploy:
     jobs:
     - build
     - deploy:
