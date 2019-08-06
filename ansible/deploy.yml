@@ -20,7 +20,7 @@
 
     - name: Recursively change ownership of a directory
       file:
-        path: /home/johnson/app/AppRepo
+        path: /app/AppRepo
         state: directory
         recurse: yes
         owner: johnson
@@ -28,18 +28,18 @@
     - name: Pull project from github
       git:
         repo: 'https://github.com/Jonnybuoy/AppRepo.git'
-        dest: app/AppRepo/
+        dest: /app/AppRepo/
         update: no
 
 
     - name: Install project requirements
       pip:
-        requirements: /home/johnson/app/AppRepo/requirements.txt --ignore-installed
+        requirements: /app/AppRepo/requirements.txt --ignore-installed
 
 
     - name: copy nginx config
       copy:
-        src: /home/johnson/app/AppRepo/ansible/files/nginx.j2
+        src: /app/AppRepo/ansible/files/nginx.j2
         dest: /etc/nginx/sites-available/AppRepo
         remote_src: yes
 
