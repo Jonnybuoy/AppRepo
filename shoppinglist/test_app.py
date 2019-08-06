@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from .models import Shoppinglist
 # from .forms import NameForm
-# from django.urls import reverse
+from django.urls import reverse
 
 
 class AppTests(TestCase):
@@ -17,18 +17,19 @@ class AppTests(TestCase):
         self.assertEqual(str(entry), entry.title)
 
     # test to make sure our homepage returns an HTTP 200 status code
-    # def test_homepage(self):
-    #     response = self.client.get('')
-    #     self.assertEqual(response.status_code, 200)
+    def test_homepage(self):
+        response = self.client.get(reverse("list_index"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "shoppinglist/templates/list_index.html")
 
-    # # to test whether the entries show up on the homepage
-    # def test_one_entry(self):
-    #     Shoppinglist.objects.create(title='1-title', description='1-body',
-    #                                 price=100.00)
-    #     response = self.client.get('')
-    #     self.assertContains(response, '1-title')
-    #     self.assertContains(response, '1-body')
-    #     self.assertContains(response, 100.00)
+    # to test whether the entries show up on the homepage
+    def test_one_entry(self):
+        Shoppinglist.objects.create(title='1-title', description='1-body',
+                                    price=100.00)
+        response = self.client.get(reverse("list_index"))
+        self.assertContains(response, '1-title')
+        self.assertContains(response, '1-body')
+        self.assertContains(response, 100.00)
     #
     # def test_two_entries(self):
     #     Shoppinglist.objects.create(title='1-title', description='1-body',
