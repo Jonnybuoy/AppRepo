@@ -11,7 +11,7 @@ project_repo: https://github.com/Jonnybuoy/AppRepo.git
 pythonpath: "{{ install_root }}/{{ project_name }}/listproject"
 
 # the dns name or names (space separated) for your server
-server_name: remindershoplist.duckdns.org www.remindershoplist.duckdns.org
+server_name: shoplist.duckdns.org www.shoplist.duckdns.org
 
 
 
