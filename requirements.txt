@@ -15,15 +15,9 @@ psycopg2==2.8.3
 pyparsing==2.4.0
 pytest==4.6.2
 pytest-cov==2.7.1
-python-dateutil==2.8.0
-pytz==2019.1
 prometheus-client==0.7.1
-six==1.12.0
 sqlparse==0.3.0
 sentry-sdk==0.10.1
 tox==3.13.2
-vine==1.3.0
 virtualenv==16.6.1
-WebOb==1.8.5
-WebTest==2.0.33
 twine==1.13.0

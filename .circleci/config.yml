@@ -31,8 +31,7 @@ jobs:
           command: |
             virtualenv venv --python=python3
             . venv/bin/activate
-            pip3 install Django
-            pip3 install coverage
+            pip3 install -r requirements.txt
             sudo apt update
             sudo apt install rsync
       - run:
