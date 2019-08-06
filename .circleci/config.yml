@@ -79,9 +79,7 @@ jobs:
       - run:
           name: upload to pypi
           command: |
-            python3 -m venv last
             . venv/bin/activate
-            pip install twine
             twine upload --skip-existing ./dist/*
 
       - add_ssh_keys:
@@ -93,11 +91,9 @@ jobs:
       - run:
           name: deploying to ansible
           command: |
-            python3 -m venv last
-            . last/bin/activate
-            pip install ansible
-            cd ansible
-            ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i hosts provision.yml
+            . venv/bin/activate
+            cd ./ansible
+            ansible-playbook -i hosts provision.yml
 
 
 
