@@ -79,6 +79,7 @@ jobs:
       - run:
           name: upload to pypi
           command: |
+            virtualenv venv --python=python3
             . venv/bin/activate
             twine upload --skip-existing ./dist/*
 
@@ -91,6 +92,7 @@ jobs:
       - run:
           name: deploying to ansible
           command: |
+            virtualenv venv --python=python3
             . venv/bin/activate
             cd ./ansible
             ansible-playbook -i hosts provision.yml
@@ -99,7 +101,8 @@ jobs:
 
 workflows:
   version: 2
-  build_deploy:
+  build_deploy:  python3 -m venv last
+            . last/bin/activate
     jobs:
     - build
     - deploy:
