@@ -34,7 +34,7 @@
 
     - name: Install project requirements
       pip:
-        requirements: /app/AppRepo/requirements.txt --ignore-installed
+        requirements: /home/johnson/app/AppRepo/requirements.txt --ignore-installed
 
 
     - name: copy nginx config
