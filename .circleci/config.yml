@@ -65,7 +65,7 @@ jobs:
           command: |
             echo -e "[pypi]" >> ~/.pypirc
             echo -e "username = jonnybuoy" >> ~/.pypirc
-            echo -e "password = jonny12905." >> ~/.pypirc
+            echo -e "password = $password" >> ~/.pypirc
 
       - run:
           name: create packages
