@@ -6,6 +6,9 @@ omit =
       fabfile.py
       setup.py
       shoppinglist/views.py
+<<<<<<< HEAD
       shoppinglist/forms.py
+=======
+>>>>>>> 93f5214d2bf62934c1b5343a1c1f6a6879870b28
       listproject/wsgi.py
       venv*
