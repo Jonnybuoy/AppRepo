@@ -9,3 +9,4 @@ omit =
       shoppinglist/forms.py
       listproject/wsgi.py
       venv*
+      *.tox*
