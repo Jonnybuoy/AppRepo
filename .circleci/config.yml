@@ -32,7 +32,6 @@ jobs:
             virtualenv venv --python=python3
             . venv/bin/activate
             pip3 install -r requirements.txt
-            pip3 install ansible
             sudo apt update
             sudo apt install rsync
       - run:
@@ -81,6 +80,7 @@ jobs:
           command: |
             virtualenv venv --python=python3
             . venv/bin/activate
+            pip3 install twine
             twine upload --skip-existing ./dist/*
 
       - add_ssh_keys:
@@ -94,6 +94,7 @@ jobs:
           command: |
             virtualenv venv --python=python3
             . venv/bin/activate
+            pip3 install ansible
             cd ./ansible
             ansible-playbook -i hosts provision.yml
 
