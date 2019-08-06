@@ -16,7 +16,7 @@
       pip: name=pip state=latest
 
     - name: Create directory for app
-      file: path=/home/johnson/app/AppRepo state=directory
+      file: path=/app/AppRepo state=directory
 
     - name: Recursively change ownership of a directory
       file:
