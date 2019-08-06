@@ -10,4 +10,4 @@ omit =
       listproject/wsgi.py
       venv*
       *.tox*
-      /
+      
