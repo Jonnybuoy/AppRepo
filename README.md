@@ -1,7 +1,7 @@
-Shoppinglist
+# Shoppinglist
 Shoppinglist is a simple Django app designed to keep a record of shoppinglist items for easy remembrance.
 
-Quick start
+# Quick start
 Add "shoppinglist" to your INSTALLED_APPS setting like this:
 
 INSTALLED_APPS = [
