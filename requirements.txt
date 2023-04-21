@@ -16,7 +16,7 @@ pyparsing==2.4.0
 pytest==4.6.2
 pytest-cov==2.7.1
 prometheus-client==0.7.1
-sqlparse==0.3.0
+sqlparse==0.4.4
 sentry-sdk==0.10.1
 tox==3.13.2
 virtualenv==16.6.1
